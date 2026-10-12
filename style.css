@@ -6,8 +6,15 @@
   padding: 0;
 }
 
+:root {
+  /* Tamanho de cada botão: encolhe em telas pequenas, máx. 100px */
+  --cell-size: clamp(60px, 22vw, 100px);
+}
+
 body {
   background: linear-gradient(to right, #233329, #41b883);
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .grid-container {
@@ -15,13 +22,17 @@ body {
   justify-content: center;
   align-content: center;
   min-height: 100vh;
-  grid-template-columns: repeat(4, 100px);
-  grid-template-rows: minmax(120px, auto) repeat(5, 100px);
+  min-height: 100dvh;
+  grid-template-columns: repeat(4, var(--cell-size));
+  grid-template-rows: minmax(calc(var(--cell-size) * 1.2), auto) repeat(
+      5,
+      var(--cell-size)
+    );
 }
 
 .grid-container > button {
   cursor: pointer;
-  font-size: 2rem;
+  font-size: clamp(1.4rem, 6vw, 2rem);
   border: none;
   outline: none;
   background-color: #111;
@@ -55,10 +66,35 @@ body {
 
 .grid-container > .output > .previous-operand {
   color: rgba(255, 255, 255, 0.75);
-  font-size: 1.5rem;
+  font-size: clamp(1.1rem, 4.5vw, 1.5rem);
 }
 
 .grid-container > .output > .current-operand {
   color: white;
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 8vw, 2.5rem);
+}
+
+/* Telas muito pequenas: a calculadora ocupa toda a largura */
+@media (max-width: 360px) {
+  :root {
+    --cell-size: 24vw;
+  }
+}
+
+/* Celulares na horizontal: evita que a calculadora fique cortada na altura */
+@media (max-height: 560px) and (orientation: landscape) {
+  :root {
+    --cell-size: clamp(44px, 14vh, 70px);
+  }
+
+  .grid-container > button {
+    font-size: 1.25rem;
+  }
+}
+
+/* Telas grandes: calculadora um pouco maior */
+@media (min-width: 1200px) and (min-height: 800px) {
+  :root {
+    --cell-size: 110px;
+  }
 }
